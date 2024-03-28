@@ -1,13 +1,5 @@
 import { StyleSheet } from "react-native";
 
-// const colors = () => {
-//     return({
-//         blanco: "#FFFFFF",
-//         purpura: "#4A4AD7",
-//         purpuraLight: "#A0A0E5"
-//     })
-// }
-
 export const colors = {
             blanco: "#FFFFFF",
             purpura: "#4A4AD7",
@@ -48,4 +40,10 @@ export default StyleSheet.create({
     hidden: {
         display: 'none',
     },
+    container: {
+        backgroundColor: colors.blanco,
+        height: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+    }
 });

@@ -4,17 +4,14 @@ import MainStyle, {colors} from '../GlobalStyles/MainStyle';
 
 const ListaHabitos = ({showScreen}) => {
   return (
-    <View style={[styles.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
+    <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
         <Text>Lista habitos</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.purpuraLight,
-        height: "100%"
-    }
+    
 });
 
 export default ListaHabitos

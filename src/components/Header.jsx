@@ -44,7 +44,7 @@ const Header = ({onClickItemMenuPassData}) => {
     return(
         <View style={[styles.container_header, {flexDirection: 'column', alignItems: 'left'}]}>
             <TouchableOpacity onPress={toggleButton} style={{height: 80, width: 70, flexDirection: "row", alignItems: "center"}}>
-                <Icon name="menu" style={[{marginLeft: 10}]} size={50} color={colors.blanco}/> 
+                <Icon name={showButton? "menu":"close"} style={[{marginLeft: 10}]} size={50} color={colors.blanco}/> 
             </TouchableOpacity>
             <MenuPrincipal></MenuPrincipal>
         </View>
