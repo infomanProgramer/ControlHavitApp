@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList, StatusBar} from 'react-native';
 import MainStyle, {colors} from '../GlobalStyles/MainStyle';
+import PrimaryButton from '../components/PrimaryButton';
 
 const HistorialHabitos = ({showScreen}) => {
   return (
