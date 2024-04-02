@@ -2,10 +2,7 @@ import React, {useState} from 'react'
 import {Text, View, Switch, StyleSheet, TouchableOpacity, FlatList, StatusBar, TextInput} from 'react-native';
 
 
-const SwitchLabel = ({label}) => {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+const SwitchLabel = ({label, toggleSwitch, isEnabled}) => {
     return (
         <View style={{flexDirection: "row", alignItems: "flex-start", width: "90%", marginTop: 25}}>
             <Text>{label}</Text>

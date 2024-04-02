@@ -3,7 +3,7 @@ import {Text, View, StyleSheet} from 'react-native';
 import ColorPalette from 'react-native-color-palette';
 import MainStyle, {colors} from '../GlobalStyles/MainStyle';
 
-const ColorPaletteSelect = () => {
+const ColorPaletteSelect = ({onChange}) => {
     let selectedColor = '#C0392B';
     const paletteColorArray = [
         '#C0392B',
@@ -35,7 +35,7 @@ const ColorPaletteSelect = () => {
             <Text>Seleccionar un color:</Text>
             <View style={{borderRadius: 15, width: "100%", marginTop:5, paddingBottom: 11, backgroundColor: colors.plomo, flexDirection: "column", alignItems: "center"}}>
                 <ColorPalette
-                    onChange={color => alert(`Color selected: ${color}`)}
+                    onChange={(color) => onChange(color)}
                     defaultColor={'#C0392B'}
                     colors={paletteColorArray}
                     title={"Selecciona un color"}

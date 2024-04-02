@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
+import MainStyle from '../GlobalStyles/MainStyle';
 
-const TextBoxLabel = ({label}) => {
-    return (
-      <View style={{width: "90%", flexDirection: "column" ,marginTop: 25 ,alignItems: "left"}}>
-        <Text>{label}</Text>
-        <TextInput style={[styles.input, {marginTop:5, borderRadius: 10}]}></TextInput>
-      </View>
-    );
+const TextBoxLabel = ({label, onChangeText, errorText = ""}) => {
+
+  return (
+    <View style={{width: "90%", flexDirection: "column" ,marginTop: 25 ,alignItems: "left"}}>
+      <Text>{label}</Text>
+      <TextInput style={[styles.input, {marginTop:5, borderRadius: 10}]} onChangeText={onChangeText}></TextInput>
+      <Text style={[{color: "red", fontSize: 11}, errorText.length > 0? MainStyle.visible: MainStyle.hidden]}>{errorText}</Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
