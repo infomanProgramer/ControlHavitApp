@@ -26,16 +26,17 @@ const NuevaCategoria = ({showScreen}) => {
     NewCategoriaObj.esbueno = 1;
     NewCategoriaObj.id_usuario = "1";
 
-    console.log(NewCategoriaObj);
-    fetch("http://localhost:5000/api/saveCategoria", {
+    fetch("http://192.168.1.6:5000/api/saveCategoria", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json"
       }, 
       body: JSON.stringify(NewCategoriaObj)
-    }).then(() => {
-      console.log("Nueva categoria añadida exitosamente");
-    }).catch(err => {
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      console.log(data.cod_resp);
+    }).catch((err) => {
       console.log("Ocurrio un error duante el guardado "+err);
     });  
   };
