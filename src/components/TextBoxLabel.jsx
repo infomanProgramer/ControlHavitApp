@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 import MainStyle from '../GlobalStyles/MainStyle';
 
-const TextBoxLabel = ({label, onChangeText, errorText = ""}) => {
+const TextBoxLabel = ({label, onChangeText, text, errorText = ""}) => {
 
   return (
     <View style={{width: "90%", flexDirection: "column" ,marginTop: 25 ,alignItems: "left"}}>
       <Text>{label}</Text>
-      <TextInput style={[styles.input, {marginTop:5, borderRadius: 10}]} onChangeText={onChangeText}></TextInput>
+      <TextInput 
+        style={[styles.input, {marginTop:5, borderRadius: 10}]} 
+        onChangeText={onChangeText}
+        value={text}
+      />
       <Text style={[{color: "red", fontSize: 11}, errorText.length > 0? MainStyle.visible: MainStyle.hidden]}>{errorText}</Text>
     </View>
   );

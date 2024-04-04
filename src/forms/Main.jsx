@@ -7,6 +7,7 @@ import ListaCategorias from "../pages/lista-catagorias";
 import ListaHabitos from "../pages/lista-habitos";
 import NuevoHabito from "../pages/nuevo-habito";
 import RegistrarHabitosDiarios from "../pages/registrar-habitos-diarios";
+import Toast from 'react-native-toast-message';
 
 const Main = () => {
     const [HistorialHabitosVisible, setHistorialHabitosVisible] = useState(false);
@@ -79,6 +80,10 @@ const Main = () => {
             <ListaHabitos showScreen={ListaHabitosVisible}/>
             <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible}/>
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
+            <Toast 
+                position = 'bottom'
+                bottomOffset={20}
+            />
         </View>
     )
 };

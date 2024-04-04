@@ -5,13 +5,14 @@ import TextBoxLabel from '../components/TextBoxLabel';
 import SwitchLabel from '../components/SwitchLabel';
 import ColorPaletteSelect from '../components/ColorPaletteSelect';
 import PrimaryButton from '../components/PrimaryButton';
+import Toast from 'react-native-toast-message';
 
 const NuevaCategoria = ({showScreen}) => {
   const [descripcion, setDescripcion] = useState("");
   const [descripcionError, setDescripcionError] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#FFFFFF");
   const [isPending, setIsPending] = useState(false); 
   
   const handleOnSubmit = () => {
@@ -23,10 +24,10 @@ const NuevaCategoria = ({showScreen}) => {
     NewCategoriaObj.descripcion = descripcion;
     NewCategoriaObj.estado = 1;
     NewCategoriaObj.color = color;
-    NewCategoriaObj.esbueno = 1;
+    NewCategoriaObj.esbueno = isEnabled;
     NewCategoriaObj.id_usuario = "1";
 
-    fetch("http://192.168.1.6:5000/api/saveCategoria", {
+    fetch("http://192.168.1.4:5000/api/saveCategoria", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json"
@@ -35,23 +36,45 @@ const NuevaCategoria = ({showScreen}) => {
     }).then((response) => {
       return response.json();
     }).then((data) => {
-      console.log(data.cod_resp);
+      if(data.cod_resp == 200){
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: data.message
+        });
+        cleanFields()
+      }else{
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: data.message
+        });
+        cleanFields()
+      }  
     }).catch((err) => {
-      console.log("Ocurrio un error duante el guardado "+err);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: err
+      });
+      cleanFields()
     });  
   };
+
+  const cleanFields = () => {
+    setDescripcion("");
+    setDescripcionError("");
+    setIsEnabled(false);
+    setColor("#FFFFFF");
+  }
 
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
       <Text>Nueva categoria</Text>
-      <TextBoxLabel label="Descripción" onChangeText={setDescripcion} errorText={descripcionError}/>
+      <TextBoxLabel label="Descripción" onChangeText={setDescripcion} text={descripcion} errorText={descripcionError}/>
       <SwitchLabel label="¿Es bueno?" toggleSwitch={toggleSwitch} isEnabled={isEnabled}/>
-      <ColorPaletteSelect onChange={setColor}/>
-      <Text>descripcion: {descripcion}</Text>
-      <Text>Enabled: {isEnabled? "Verdad": "Falso"}</Text>
-      <Text>Color: {color}</Text>
+      <ColorPaletteSelect colorSelected={color} onChange={setColor}/>
       <PrimaryButton label="Guardar" onClick={handleOnSubmit}/>
-
     </View>
   )
 }
