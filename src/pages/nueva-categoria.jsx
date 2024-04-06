@@ -6,6 +6,9 @@ import SwitchLabel from '../components/SwitchLabel';
 import ColorPaletteSelect from '../components/ColorPaletteSelect';
 import PrimaryButton from '../components/PrimaryButton';
 import Toast from 'react-native-toast-message';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { actionCreator } from './store/actions';
 
 const NuevaCategoria = ({showScreen}) => {
   const [descripcion, setDescripcion] = useState("");
@@ -14,8 +17,10 @@ const NuevaCategoria = ({showScreen}) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [color, setColor] = useState("#FFFFFF");
   const [isPending, setIsPending] = useState(false); 
+  const urlControlHavitAPI = useSelector((state) => state.urlControlHavitAPI);
   
   const handleOnSubmit = () => {
+    console.log("url api: ", urlControlHavitAPI)
     NewCategoriaObj = {};
     if(!descripcion){
       setDescripcionError("Debe rellenar el campo descripción");
@@ -27,7 +32,7 @@ const NuevaCategoria = ({showScreen}) => {
     NewCategoriaObj.esbueno = isEnabled;
     NewCategoriaObj.id_usuario = "1";
 
-    fetch("http://192.168.1.4:5000/api/saveCategoria", {
+    fetch(urlControlHavitAPI+"api/saveCategoria", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json"
