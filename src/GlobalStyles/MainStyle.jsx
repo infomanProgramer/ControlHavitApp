@@ -35,6 +35,14 @@ export default StyleSheet.create({
         flexDirection: "column-reverse",
         alignItems: "center",
     },
+    containerSecondary: {
+        paddingTop: 20,
+        backgroundColor: colors.blanco,
+        width: "100%",
+        height: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+    },
     visible: {
         display: 'flex',
     },

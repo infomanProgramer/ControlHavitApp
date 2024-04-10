@@ -8,7 +8,6 @@ import PrimaryButton from '../components/PrimaryButton';
 import Toast from 'react-native-toast-message';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { actionCreator } from './store/actions';
 
 const NuevaCategoria = ({showScreen}) => {
   const [descripcion, setDescripcion] = useState("");

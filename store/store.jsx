@@ -1,6 +1,14 @@
 import { createStore } from 'redux';
-import { URL_CONTROL_HAVIT_API } from './actions';
 
+export const URL_CONTROL_HAVIT_API = 'URL_CONTROL_HAVIT_API';
+
+export const setUrlControlHavitApi = (value) => {
+    return {
+        type: URL_CONTROL_HAVIT_API,
+        payload: 'http://'+value+':5000/'
+    };
+
+};
 
 const initialState = {
 
@@ -10,7 +18,6 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-
     // Handle different action types and update the state accordingly
     switch (action.type) {
         case URL_CONTROL_HAVIT_API:
@@ -24,3 +31,6 @@ const reducer = (state = initialState, action) => {
 };
 
 export const store = createStore(reducer);
+
+
+
