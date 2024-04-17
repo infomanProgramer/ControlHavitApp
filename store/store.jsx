@@ -5,7 +5,7 @@ export const URL_CONTROL_HAVIT_API = 'URL_CONTROL_HAVIT_API';
 export const setUrlControlHavitApi = (value) => {
     return {
         type: URL_CONTROL_HAVIT_API,
-        payload: 'http://'+value+':5000/'
+        payload: value
     };
 
 };

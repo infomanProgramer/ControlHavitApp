@@ -19,7 +19,6 @@ const NuevaCategoria = ({showScreen}) => {
   const urlControlHavitAPI = useSelector((state) => state.urlControlHavitAPI);
   
   const handleOnSubmit = () => {
-    console.log("url api: ", urlControlHavitAPI)
     NewCategoriaObj = {};
     if(!descripcion){
       setDescripcionError("Debe rellenar el campo descripción");
@@ -30,39 +29,47 @@ const NuevaCategoria = ({showScreen}) => {
     NewCategoriaObj.color = color;
     NewCategoriaObj.esbueno = isEnabled;
     NewCategoriaObj.id_usuario = "1";
-
-    fetch(urlControlHavitAPI+"api/saveCategoria", {
-      method: "POST", 
-      headers: {
-        "Content-Type": "application/json"
-      }, 
-      body: JSON.stringify(NewCategoriaObj)
-    }).then((response) => {
-      return response.json();
-    }).then((data) => {
-      if(data.cod_resp == 200){
-        Toast.show({
-          type: 'success',
-          text1: 'Success',
-          text2: data.message
-        });
-        cleanFields()
-      }else{
+    try{
+      fetch(urlControlHavitAPI+"api/saveCategoria", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(NewCategoriaObj)
+      }).then((response) => {
+        return response.json();
+      }).then((data) => {
+        if(data.cod_resp == 200){
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: data.message
+          });
+          cleanFields()
+        }else{
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: data.message
+          });
+          cleanFields()
+        }  
+      }).catch((err) => {
         Toast.show({
           type: 'error',
           text1: 'Error',
-          text2: data.message
+          text2: err
         });
         cleanFields()
-      }  
-    }).catch((err) => {
+      });
+    }catch(err) {
       Toast.show({
         type: 'error',
         text1: 'Error',
         text2: err
       });
       cleanFields()
-    });  
+    }  
   };
 
   const cleanFields = () => {

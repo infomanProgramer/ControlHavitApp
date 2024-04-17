@@ -5,7 +5,8 @@ export const colors = {
             purpura: "#4A4AD7",
             purpuraLight: "#A0A0E5",
             crema: "#287495",
-            plomo: "#E5E5F6"
+            plomo: "#E5E5F6",
+            plomo_oscuro: "#9696B1"
         }
 
 export default StyleSheet.create({
