@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 import MainStyle, {colors} from '../GlobalStyles/MainStyle';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector} from 'react-redux';
+import { setModalVisible } from '../../store/store';
 
 const TextBoxLabelSelect = ({label, onChangeText, text, errorText = "", placeHolder, selectCategory}) => {
-
-  const [changeIcon, setChangeIcon] = useState("chevron-back-outline");
+  const changeIconSw = useSelector((state) => state.modalVisible);
+  const dispatch = useDispatch();
+  
   const onClick = () => {
-    setChangeIcon(changeIcon=="chevron-down-outline"?"chevron-back-outline":"chevron-down-outline")
-    //selectCategory()
+    dispatch(setModalVisible(true))
   };
 
   return (
@@ -21,7 +23,7 @@ const TextBoxLabelSelect = ({label, onChangeText, text, errorText = "", placeHol
           onChangeText={onChangeText}
           value={text}
         />
-        <Icon style={{position: "absolute", right: 10}} name={changeIcon} size={40} color={colors.plomo_oscuro} onPress={onClick}/>
+        <Icon style={{position: "absolute", right: 10}} name={changeIconSw?"chevron-down-outline":"chevron-back-outline"} size={40} color={colors.plomo_oscuro} onPress={onClick}/>
       </View>
       <Text style={[{color: "red", fontSize: 11}, errorText.length > 0? MainStyle.visible: MainStyle.hidden]}>{errorText}</Text>
     </View>

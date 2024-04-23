@@ -3,12 +3,16 @@ import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native
 import MainStyle, {colors} from '../GlobalStyles/MainStyle';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Modal = ({showScreen, setData, id, value, closeModal}) => {
+const Modal = ({showScreen, setData, id, value, closeModal, onClickFlatList}) => {
+
+  // const onClickFlatList = (id, value) => {
+  //   console.log(id, value);
+  // };
   
   const Item = (({item, id, value}) => (
-    <View style={{width: "100%", paddingTop: 20, paddingBottom: 20, borderTopColor: "#DADAE0", borderTopWidth: 1}}>
+    <TouchableOpacity onPress={() => onClickFlatList(item[id], item[value])} style={{width: "100%", paddingTop: 20, paddingBottom: 20, borderTopColor: "#DADAE0", borderTopWidth: 1}}>
       <Text key={item.id} style={{alignSelf: "center"}}>{item[value]}</Text>
-    </View>
+    </TouchableOpacity>
   ));
   return (
     <View style={[styles.containerModal, showScreen?MainStyle.visible:MainStyle.hidden]}>

@@ -10,9 +10,11 @@ import RegistrarHabitosDiarios from "../pages/registrar-habitos-diarios";
 import Toast from 'react-native-toast-message';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "../components/Modal";
+import { setModalVisible } from "../../store/store";
 
 const Main = () => {
     const urlControlHavitAPI = useSelector((state) => state.urlControlHavitAPI);
+    const modalVisible = useSelector((state) => state.modalVisible);
     const [HistorialHabitosVisible, setHistorialHabitosVisible] = useState(false);
     const [ListaCategoriasVisible, setListaCategoriasVisible] = useState(false);
     const [ListaHabitosVisible, setListaHabitosVisible] = useState(false);
@@ -20,20 +22,48 @@ const Main = () => {
     const [NuevaHabitoVisible, setNuevaHabitoVisible] = useState(false);
     const [RegistrarHabitosDiariosVisible, setRegistrarHabitosDiariosVisible] = useState(false);
     const [listaCategoria, setListaCategoria] = useState([]);
-    const [modalVisible, setModalVisible] = useState(true);
+    const [arrayModal, setArrayModal] = useState([])
+    const [id, setId] = useState(0);
+    const [value, setValue] = useState("");
+    const [placeHolderNuevoHabito, setPlaceHolderNuevoHabito] = useState("Seleccione una categoria");
+    const [categoriaSelected, setCategoriaSelected] = useState(-1);
+    
+    const dispatch = useDispatch();
 
-    const loadCategorias = () => {
-        fetch(urlControlHavitAPI+"api/getListaCategorias/1")
-            .then(response => response.json())
-            .then(data => {
-                const {cod_resp, lista_categorias} = data;
-                if(cod_resp == 200){
-                    setListaCategoria(lista_categorias);
-                }
-            })
-            .catch(error => {
+    const loadCategorias = async () => {
+        try{
+            const response = await fetch(urlControlHavitAPI+"api/getListaCategorias/1");
+            const data = await response.json();
+            return data;
+        }catch(error){
+            throw error
+        }
+    };
+    const loadCategoriasListaCategorias = async () => {
+        try{
+            const {cod_resp, lista_categorias} = await loadCategorias();
+            if(cod_resp == 200){
+                setListaCategoria(lista_categorias);
+            }else{
                 console.error(error);
-            });
+            }
+        }catch(error) {
+            console.error(error);
+        }
+    };
+    const loadCategoriasNuevoHabito = async () => {
+        try{
+            const {cod_resp, lista_categorias} = await loadCategorias();
+            if(cod_resp == 200){
+                setArrayModal(lista_categorias);
+                setId("ID_CATEGORIAHABITOS");
+                setValue("DESCRIPCION")
+            }else{
+                console.error(error);
+            }
+        }catch(error) {
+            console.error(error);
+        }
     };
     const handleDataMenuItemPassData = (id) => {
         switch (id) {
@@ -46,7 +76,7 @@ const Main = () => {
                 setHistorialHabitosVisible(false);
                 break;
             case 2://Lista Categorias
-                loadCategorias();
+                loadCategoriasListaCategorias();
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(true);
                 setNuevaHabitoVisible(false);
@@ -55,6 +85,7 @@ const Main = () => {
                 setHistorialHabitosVisible(false);
                 break;
             case 3://Nuevo habito
+                loadCategoriasNuevoHabito();
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
                 setNuevaHabitoVisible(true);
@@ -89,16 +120,25 @@ const Main = () => {
         }
     };
     const closeModal = () => {
-        setModalVisible(false);
+        dispatch(setModalVisible(false))
     };
-    const arr = [{key: 1, value: 'Uno'}, {key: 2, value: 'Dos'}, {key: 3, value: 'Tres'}];
+    const onClickFlatList = (id, value) => {
+        console.log(id, value);
+        setPlaceHolderNuevoHabito(value);
+        setCategoriaSelected(id);
+        closeModal();
+    };
+    const cleanFieldCategorySelected = () => {
+        setPlaceHolderNuevoHabito("Seleccione una categoria");
+        setCategoriaSelected(-1);
+    };
     return(
         <View style={styles.mainContainer}>
-            <Modal showScreen={modalVisible} setData={arr} id="key" value="value" closeModal={closeModal}/>
+            <Modal showScreen={modalVisible} setData={arrayModal} id={id} value={value} closeModal={closeModal} onClickFlatList={onClickFlatList}/>
             <Header onClickItemMenuPassData={handleDataMenuItemPassData}/>
             <NuevaCategoria showScreen={NuevaCategoriaVisible}/>
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
-            <NuevoHabito showScreen={NuevaHabitoVisible}/>
+            <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
             <ListaHabitos showScreen={ListaHabitosVisible}/>
             <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible}/>
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
