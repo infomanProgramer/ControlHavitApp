@@ -27,6 +27,7 @@ const Main = () => {
     const [value, setValue] = useState("");
     const [placeHolderNuevoHabito, setPlaceHolderNuevoHabito] = useState("Seleccione una categoria");
     const [categoriaSelected, setCategoriaSelected] = useState(-1);
+    const [listaHabitos, setListaHabitos] = useState([]);
     
     const dispatch = useDispatch();
 
@@ -36,7 +37,7 @@ const Main = () => {
             const data = await response.json();
             return data;
         }catch(error){
-            throw error
+            throw error;
         }
     };
     const loadCategoriasListaCategorias = async () => {
@@ -45,7 +46,7 @@ const Main = () => {
             if(cod_resp == 200){
                 setListaCategoria(lista_categorias);
             }else{
-                console.error(error);
+                console.error("error");
             }
         }catch(error) {
             console.error(error);
@@ -59,9 +60,31 @@ const Main = () => {
                 setId("ID_CATEGORIAHABITOS");
                 setValue("DESCRIPCION")
             }else{
-                console.error(error);
+                console.error("error");
             }
         }catch(error) {
+            console.error(error);
+        }
+    };
+    const loadHabitos = async () => {
+        try{
+            const response = await fetch(urlControlHavitAPI+"api/getListaHabitos/1");
+            const data = await response.json();
+            return data;
+        }catch(error){
+            throw error;
+        }
+    };
+    const loadHabitosListaHabitos = async () => {
+        try{
+            const {cod_resp, lista_habitos} = await loadHabitos();
+            if(cod_resp == 200){
+                console.log(lista_habitos)
+                setListaHabitos(lista_habitos);
+            }else{
+                console.log("Error");
+            }
+        }catch(error){
             console.error(error);
         }
     };
@@ -94,6 +117,7 @@ const Main = () => {
                 setHistorialHabitosVisible(false);
                 break;
             case 4://Lista de habitos
+                loadHabitosListaHabitos();
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
                 setNuevaHabitoVisible(false);
@@ -139,7 +163,7 @@ const Main = () => {
             <NuevaCategoria showScreen={NuevaCategoriaVisible}/>
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
             <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
-            <ListaHabitos showScreen={ListaHabitosVisible}/>
+            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos}/>
             <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible}/>
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
             <Toast 
