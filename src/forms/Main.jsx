@@ -28,6 +28,7 @@ const Main = () => {
     const [placeHolderNuevoHabito, setPlaceHolderNuevoHabito] = useState("Seleccione una categoria");
     const [categoriaSelected, setCategoriaSelected] = useState(-1);
     const [listaHabitos, setListaHabitos] = useState([]);
+    const [paginacionHabitos, setPaginacionHabitos] = useState({});
     
     const dispatch = useDispatch();
 
@@ -77,10 +78,11 @@ const Main = () => {
     };
     const loadHabitosListaHabitos = async () => {
         try{
-            const {cod_resp, lista_habitos} = await loadHabitos();
+            const {cod_resp, lista_habitos, meta} = await loadHabitos();
             if(cod_resp == 200){
                 console.log(lista_habitos)
                 setListaHabitos(lista_habitos);
+                setPaginacionHabitos(meta);
             }else{
                 console.log("Error");
             }
@@ -163,7 +165,7 @@ const Main = () => {
             <NuevaCategoria showScreen={NuevaCategoriaVisible}/>
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
             <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
-            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos}/>
+            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos}/>
             <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible}/>
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
             <Toast 

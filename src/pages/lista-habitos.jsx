@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList, StatusBar} from 'react-native';
 import MainStyle, {colors} from '../GlobalStyles/MainStyle';
+import { Pagination } from '../components/Pagination';
 
 const Item = React.memo(({descripcion, color}) => ( 
   <TouchableOpacity style={styles.item}>
@@ -15,15 +16,15 @@ const Item = React.memo(({descripcion, color}) => (
     </View>
   </TouchableOpacity>
 ));
-const ListaHabitos = ({showScreen, listaHabitos}) => {
+const ListaHabitos = ({showScreen, listaHabitos, paginacionHabitos}) => {
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
         <Text>Lista habitos</Text>
+        <Pagination paginacionDetalle={paginacionHabitos}></Pagination>
         <FlatList
           data={listaHabitos}
           renderItem={({item}) => <Item descripcion={item.HABITO} color={item.COLOR}/>}
         ></FlatList>
-        
     </View>
   )
 }
