@@ -33,7 +33,7 @@ export default StyleSheet.create({
         backgroundColor: colors.purpuraLight,
         width: "100%",
         height: "100%",
-        flexDirection: "column-reverse",
+        flexDirection: "column",
         alignItems: "center",
     },
     containerSecondary: {

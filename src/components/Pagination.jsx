@@ -1,50 +1,68 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import MainStyle from '../GlobalStyles/MainStyle';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPaginationNumber } from '../../store/store';
 
-export const Pagination = ({paginacionDetalle}) => {
+export const Pagination = ({paginacionDetalle, changePage}) => {
     const [numberLeft, setNumberLeft] = useState(1);
     const [numberMiddle, setNumberMiddle] = useState(2);
     const [numberRight, setNumberRight] = useState(3);
     const [pageActive, setPageActive] = useState(1);
 
-    // useEffect(() => {
-    //     setPageActive(1);
-    // })
+    const dispatch = useDispatch();
 
     const goLeft = () => {
-        if(pageActive-2 >= 1){
-            setNumberLeft(pageActive-2)
-            setNumberMiddle(pageActive-1);
-            setNumberRight(pageActive);
+        if(paginacionDetalle.pages >= 3){
+            if(pageActive-2 >= 1){
+                setNumberLeft(pageActive-2)
+                setNumberMiddle(pageActive-1);
+                setNumberRight(pageActive);
+            }
+            if(pageActive > 1){
+                setPageActive(pageActive - 1);
+                changePage(pageActive - 1);
+            }
+        }else if(paginacionDetalle.pages == 2){
+            if(pageActive > 1){
+                setPageActive(pageActive - 1);
+                changePage(pageActive - 1);
+            }
         }
-        if(pageActive > 1)
-            setPageActive(pageActive - 1);
     };
     const goRight = () => {
-        if(pageActive < paginacionDetalle.pages){
-            setPageActive(pageActive + 1);
-        }
-        if(pageActive > 1 && (pageActive + 1 < paginacionDetalle.pages)){
-            setNumberLeft(pageActive);
-            setNumberMiddle(pageActive+1);
-            setNumberRight(pageActive+2);
+        if(paginacionDetalle.pages >= 3){
+            if(pageActive < paginacionDetalle.pages){
+                setPageActive(pageActive + 1);
+                changePage(pageActive+1);
+            }
+            if(pageActive > 1 && (pageActive + 1 < paginacionDetalle.pages)){
+                setNumberLeft(pageActive);
+                setNumberMiddle(pageActive+1);
+                setNumberRight(pageActive+2);
+            }
+        }else if(paginacionDetalle.pages == 2){
+            if(pageActive < 2){
+                setPageActive(pageActive + 1);
+                changePage(pageActive+1);
+            }
         }
     };
   return (
     <View style={styles.container}>
         <Text style={styles.page}>1</Text>
         <TouchableOpacity style={styles.arrow_left} onPress={goLeft}></TouchableOpacity>
-        <Text>{pageActive}</Text>
         <View style={pageActive == 1? styles.esferaCenter:styles.esfera}>
             <Text style={pageActive == 1?styles.esferaCenter_texto:styles.esfera_texto}>{numberLeft}</Text>
         </View>
-        <View style={pageActive > 1 && pageActive < paginacionDetalle.pages?styles.esferaCenter:styles.esfera}>
+        <View style={[pageActive > 1 && pageActive < paginacionDetalle.pages?styles.esferaCenter:styles.esfera, paginacionDetalle.pages <= 2?MainStyle.hidden:MainStyle.visible]}>
             <Text style={pageActive > 1 && pageActive < paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{numberMiddle}</Text>
         </View>
-        <View style={pageActive == paginacionDetalle.pages? styles.esferaCenter:styles.esfera}>
-            <Text style={pageActive == paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{numberRight}</Text>
+        <View style={[pageActive == paginacionDetalle.pages? styles.esferaCenter:styles.esfera, paginacionDetalle.pages <= 1?MainStyle.hidden:MainStyle.visible]}>
+            <Text style={pageActive == paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{paginacionDetalle.pages == 2?2:numberRight}</Text>
         </View>
-
+        
+            
         <TouchableOpacity style={styles.arrow_right} onPress={goRight}></TouchableOpacity>
         <Text style={styles.page}>{paginacionDetalle.pages}</Text>
     </View>

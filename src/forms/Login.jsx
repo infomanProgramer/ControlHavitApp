@@ -10,13 +10,17 @@ const Login = ({navigation}) => {
     }
     return(
         <View style={MainStyle.containerPrimary}>
-            <PrimaryButton label="Ingresar" onClick={irHome}/>
-            <Text style={[{marginBottom: "90%", textAlign: "center"}, MainStyle.textPrimaryBold_50px]}>
-                Aplicación Control de Habitos
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={{backgroundColor: "transparent", width: "100%", height: 100, paddingLeft: 10}}>
-                <Icon name="settings-outline" size={50} color={colors.purpura}/>
-            </TouchableOpacity>
+            <View style={{width: "100%", height:"70%"}}>
+                <TouchableOpacity onPress={() => navigation.navigate("Settings")} style={{backgroundColor: "transparent", width: "100%", paddingLeft: 10}}>
+                    <Icon style={{marginTop: 20, marginBottom:20}} name="settings-outline" size={50} color={colors.purpura}/>
+                </TouchableOpacity>
+                <Text style={[{textAlign: "center"}, MainStyle.textPrimaryBold_50px]}>
+                    Aplicación Control de Habitos
+                </Text>
+            </View>
+            <View style={{width: "100%", height:"30%", flexDirection: "column-reverse", alignItems: "center"}}>
+                <PrimaryButton label="Ingresar" onClick={irHome}/>
+            </View>
         </View>
     );
 };

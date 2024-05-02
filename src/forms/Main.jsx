@@ -14,6 +14,7 @@ import { setModalVisible } from "../../store/store";
 
 const Main = () => {
     const urlControlHavitAPI = useSelector((state) => state.urlControlHavitAPI);
+    const paginationNumber = useSelector((state) => state.paginationNumber);
     const modalVisible = useSelector((state) => state.modalVisible);
     const [HistorialHabitosVisible, setHistorialHabitosVisible] = useState(false);
     const [ListaCategoriasVisible, setListaCategoriasVisible] = useState(false);
@@ -29,6 +30,7 @@ const Main = () => {
     const [categoriaSelected, setCategoriaSelected] = useState(-1);
     const [listaHabitos, setListaHabitos] = useState([]);
     const [paginacionHabitos, setPaginacionHabitos] = useState({});
+    const [numberPage, setNumberPage] = useState(1);
     
     const dispatch = useDispatch();
 
@@ -67,22 +69,22 @@ const Main = () => {
             console.error(error);
         }
     };
-    const loadHabitos = async () => {
+    const loadHabitos = async (pag) => {
         try{
-            const response = await fetch(urlControlHavitAPI+"api/getListaHabitos/1");
+            const response = await fetch(urlControlHavitAPI+"api/getListaHabitos/1?page="+pag+"&per_page=5");
             const data = await response.json();
             return data;
         }catch(error){
             throw error;
         }
     };
-    const loadHabitosListaHabitos = async () => {
+    const loadHabitosListaHabitos = async (sw, pag) => {
         try{
-            const {cod_resp, lista_habitos, meta} = await loadHabitos();
+            const {cod_resp, lista_habitos, meta} = await loadHabitos(pag);
             if(cod_resp == 200){
-                console.log(lista_habitos)
                 setListaHabitos(lista_habitos);
-                setPaginacionHabitos(meta);
+                if(sw == 1)
+                    setPaginacionHabitos(meta);
             }else{
                 console.log("Error");
             }
@@ -119,7 +121,7 @@ const Main = () => {
                 setHistorialHabitosVisible(false);
                 break;
             case 4://Lista de habitos
-                loadHabitosListaHabitos();
+                loadHabitosListaHabitos(1,1);
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
                 setNuevaHabitoVisible(false);
@@ -158,6 +160,9 @@ const Main = () => {
         setPlaceHolderNuevoHabito("Seleccione una categoria");
         setCategoriaSelected(-1);
     };
+    const changePage = (pag) => {
+        loadHabitosListaHabitos(0, pag);
+    };
     return(
         <View style={styles.mainContainer}>
             <Modal showScreen={modalVisible} setData={arrayModal} id={id} value={value} closeModal={closeModal} onClickFlatList={onClickFlatList}/>
@@ -165,7 +170,7 @@ const Main = () => {
             <NuevaCategoria showScreen={NuevaCategoriaVisible}/>
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
             <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
-            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos}/>
+            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage}/>
             <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible}/>
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
             <Toast 
