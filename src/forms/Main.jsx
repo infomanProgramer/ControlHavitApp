@@ -171,7 +171,7 @@ const Main = () => {
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
             <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
             <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage}/>
-            <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible}/>
+            <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage}/>
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
             <Toast 
                 position = 'bottom'

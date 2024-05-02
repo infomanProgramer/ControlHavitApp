@@ -43,7 +43,7 @@ const Header = ({onClickItemMenuPassData}) => {
 
     return(
         <View style={[styles.container_header, {flexDirection: 'column', alignItems: 'left'}]}>
-            <TouchableOpacity onPress={toggleButton} style={{height: 80, width: 70, flexDirection: "row", alignItems: "center"}}>
+            <TouchableOpacity onPress={toggleButton} style={{height: "100%", width: 70, flexDirection: "row", alignItems: "center"}}>
                 <Icon name={showButton? "menu":"close"} style={[{marginLeft: 10}]} size={50} color={colors.blanco}/> 
             </TouchableOpacity>
             <MenuPrincipal></MenuPrincipal>
@@ -54,16 +54,17 @@ const Header = ({onClickItemMenuPassData}) => {
 const styles = StyleSheet.create({
     container_header: {
         backgroundColor: colors.purpura,
-        height: "auto",
+        height: "10%",
         verticalAlign: "middle",
-        zIndex: 1
+        zIndex: 1,
+        flexDirection: "column"
     },
     container: {
         width: "100%", 
         height: "auto", 
         backgroundColor: colors.purpura,
         position: "absolute",
-        top: 80
+        top: "100%"
     },
     item: {
         padding: 10,
