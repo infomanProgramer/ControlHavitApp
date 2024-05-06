@@ -30,7 +30,7 @@ export const setPaginationNumber = (value) => {
 const initialState = {
 
     // Define your initial state properties here
-    urlControlHavitAPI: 'http://192.168.1.8:5000/',
+    urlControlHavitAPI: 'http://192.168.1.2:5000/',
     modalVisible: false,
     paginationNumber: 1
 };
