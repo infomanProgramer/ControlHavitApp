@@ -6,6 +6,8 @@ export const MODAL_VISIBLE = 'MODAL_VISIBLE';
 
 export const PAGINATION_NUMBER = 'PAGINATION_NUMBER';
 
+export const MODAL_VISIBLE_REGISTRAR_H = 'MODAL_VISIBLE_REGISTRAR_H';
+
 export const setUrlControlHavitApi = (value) => {
     return {
         type: URL_CONTROL_HAVIT_API,
@@ -16,6 +18,13 @@ export const setUrlControlHavitApi = (value) => {
 export const setModalVisible = (value) => {
     return {
         type: MODAL_VISIBLE,
+        payload: value
+    };
+}
+
+export const setModalVisibleRegistraH = (value) => {
+    return {
+        type: MODAL_VISIBLE_REGISTRAR_H,
         payload: value
     };
 }
@@ -32,7 +41,8 @@ const initialState = {
     // Define your initial state properties here
     urlControlHavitAPI: 'http://192.168.1.2:5000/',
     modalVisible: false,
-    paginationNumber: 1
+    paginationNumber: 1,
+    modalVisibleRegistrarH: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -52,6 +62,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 paginationNumber: action.payload
+            }
+        case MODAL_VISIBLE_REGISTRAR_H:
+            return {
+                ...state,
+                modalVisibleRegistrarH: action.payload
             }
         default:
             return state;

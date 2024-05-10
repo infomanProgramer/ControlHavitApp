@@ -8,7 +8,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
-const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage}) => {
+const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage, placeHolder}) => {
   const [habitosArray, setHabitosArray] = useState([
     {
       CATEGORIA: "Buenos habitos",
@@ -76,7 +76,7 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
         <View style={{width: "100%", height:"55%", flexDirection: "column", alignItems: "center"}}>
           <Text>Registro Habitos Diarios</Text>
-          <TextBoxLabelSelect label="Categoria" _height={40} _fontSize={15} _iconSize={30}></TextBoxLabelSelect>
+          <TextBoxLabelSelect label="Categoria" _height={40} _fontSize={15} _iconSize={30} placeHolder={placeHolder}></TextBoxLabelSelect>
           <TextBoxLabel label="Buscar por descripción" _height={40} _fontSize={15}></TextBoxLabel>
           <View style={{width: "100%", flexDirection: "row", justifyContent: "center", gap: 10}}>
             <PrimaryButton label="Guardar" _height={40} _width={100}></PrimaryButton>
@@ -89,6 +89,7 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
           </ScrollView>
         </View>
         <View style={{height: "27%"}}>
+          
           <FlatList
             data={listaHabitos}
             renderItem={({item}) => <Item descripcion={item.HABITO} color={item.COLOR} categoria={item.CATEGORIA} item={item}/>}
