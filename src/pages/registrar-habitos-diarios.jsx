@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList, StatusBar, ScrollView} from 'react-native';
 import MainStyle, {colors} from '../GlobalStyles/MainStyle';
 import { Pagination } from '../components/Pagination';
@@ -9,26 +9,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
 const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage, placeHolder}) => {
-  const [habitosArray, setHabitosArray] = useState([
-    {
-      CATEGORIA: "Buenos habitos",
-      COLOR: "#f5f900",
-      HABITO: "Habito cargado desde postman 1",
-      ID_HABITO: 27
-    },
-    {
-        CATEGORIA: "Portal Web Personal",
-        COLOR: "#00f900",
-        HABITO: "Estudiar node js",
-        ID_HABITO: 28
-    },
-    {
-        CATEGORIA: "Aprender Ingles",
-        COLOR: "#FFFFFF",
-        HABITO: "Estudiar duolingo",
-        ID_HABITO: 29
-    },
-  ]);
+  const [habitosArray, setHabitosArray] = useState([]);
+
+  useEffect(() => {
+    console.log('render RegistrarHabitosDiarios');
+    setHabitosArray([]);
+  }, []);
 
   const Item = React.memo(({descripcion, categoria, color, item}) => ( 
     <TouchableOpacity style={styles.item} onPress={() => seleccionaHabito(item)}>
@@ -74,7 +60,7 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
   });
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
-        <View style={{width: "100%", height:"55%", flexDirection: "column", alignItems: "center"}}>
+        <View style={{width: "100%", height:"40%", flexDirection: "column", alignItems: "center"}}>
           <Text>Registro Habitos Diarios</Text>
           <TextBoxLabelSelect label="Categoria" _height={40} _fontSize={15} _iconSize={30} placeHolder={placeHolder}></TextBoxLabelSelect>
           <TextBoxLabel label="Buscar por descripción" _height={40} _fontSize={15}></TextBoxLabel>
@@ -82,14 +68,14 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
             <PrimaryButton label="Guardar" _height={40} _width={100}></PrimaryButton>
             <PrimaryButton label="Buscar" _height={40} _width={100}></PrimaryButton>
           </View>
-          <ScrollView style={{width: "100%"}}>
+          
+        </View>
+        <View style={{height: "42%", width: "100%"}}>
+          <ScrollView style={{width: "100%", maxHeight: 100}}>
             <View style={{flexDirection: "row", flexWrap: 'wrap', width: "100%", alignContent: "row", padding: 5}}>
             {renderListaHabitos}
             </View>
           </ScrollView>
-        </View>
-        <View style={{height: "27%"}}>
-          
           <FlatList
             data={listaHabitos}
             renderItem={({item}) => <Item descripcion={item.HABITO} color={item.COLOR} categoria={item.CATEGORIA} item={item}/>}
