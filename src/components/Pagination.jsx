@@ -13,6 +13,9 @@ export const Pagination = ({paginacionDetalle, changePage}) => {
     const dispatch = useDispatch();
 
     const goLeft = () => {
+        // console.log("paginacionDetalle.page: ", paginacionDetalle.page);
+        // if(paginacionDetalle.page == 1)
+        //     setPageActive(1)
         if(paginacionDetalle.pages >= 3){
             if(pageActive-2 >= 1){
                 setNumberLeft(pageActive-2)
@@ -31,6 +34,9 @@ export const Pagination = ({paginacionDetalle, changePage}) => {
         }
     };
     const goRight = () => {
+        // console.log("paginacionDetalle.page: ", paginacionDetalle.page);
+        // if(paginacionDetalle.page == 1)
+        //     setPageActive(1)
         if(paginacionDetalle.pages >= 3){
             if(pageActive < paginacionDetalle.pages){
                 setPageActive(pageActive + 1);

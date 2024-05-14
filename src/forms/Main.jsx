@@ -33,6 +33,7 @@ const Main = () => {
     const [listaHabitos, setListaHabitos] = useState([]);
     const [paginacionHabitos, setPaginacionHabitos] = useState({});
     const [numberPage, setNumberPage] = useState(1);
+    const [pageActive, setPageActive] = useState(1);
     
     const dispatch = useDispatch();
 
@@ -71,6 +72,20 @@ const Main = () => {
             console.error(error);
         }
     };
+    const loadCategoriasNuevoHabitoR = async () => {
+        try{
+            const {cod_resp, lista_categorias} = await loadCategorias();
+            if(cod_resp == 200){
+                setArrayModal([{ID_CATEGORIAHABITOS: -1, DESCRIPCION: "Mostrar todas las categorias"},...lista_categorias]);
+                setId("ID_CATEGORIAHABITOS");
+                setValue("DESCRIPCION")
+            }else{
+                console.error("error");
+            }
+        }catch(error) {
+            console.error(error);
+        }
+    };
     const loadHabitos = async (pag, id_cat) => {
         try{
             const response = await fetch(urlControlHavitAPI+"api/getListaHabitos/1/"+id_cat+"?page="+pag+"&per_page=5");
@@ -89,7 +104,20 @@ const Main = () => {
             throw error;
         }
     };
-    //const loadHabitosListaHabitos = async (sw, pag, cat = -1) => {
+    const loadHabitosListaHabitosFiltro = async (pag, id_categoria = -1, desc_habito = "%20") => {
+        try{
+            const {cod_resp, lista_habitos, meta} = await loadHabitosFiltro(pag, id_categoria, desc_habito);
+            if(cod_resp == 200){
+                setListaHabitos(lista_habitos);
+                setPaginacionHabitos(meta);
+                console.log("meta: ", meta);
+            }else{
+                console.log("Error");
+            }
+        }catch(error){
+            throw error;
+        };
+    };
     const loadHabitosListaHabitos = async (pag, cat = -1) => {
         try{
             const {cod_resp, lista_habitos, meta} = await loadHabitos(pag, cat);
@@ -152,7 +180,7 @@ const Main = () => {
                 setCategoriaSelected(-1);
                 setListaHabitos([]);
                 setPaginacionHabitos({});
-                loadCategoriasNuevoHabito();
+                loadCategoriasNuevoHabitoR();
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
                 setNuevaHabitoVisible(false);
@@ -173,14 +201,15 @@ const Main = () => {
     const closeModal = () => {
         dispatch(setModalVisible(false))
     };
-    const onClickFlatList = (id, value) => {
+    const onClickFlatList = (id, value, desc_hab = "%20") => {
         console.log(id, value);
         setPlaceHolderNuevoHabito(value);
         setCategoriaSelected(id);
         closeModal();
         if(RegistrarHabitosDiariosVisible){
             console.log("Pantalla Registro habitos");
-            loadHabitosListaHabitos(1, id);
+            //loadHabitosListaHabitosFiltro(1, id, desc_hab);
+            loadHabitosListaHabitos(1, id)
         }
     };
     const cleanFieldCategorySelected = () => {
@@ -188,8 +217,12 @@ const Main = () => {
         setCategoriaSelected(-1);
     };
     const changePage = (pag) => {
-        console.log(categoriaSelected);
-        loadHabitosListaHabitos(pag, categoriaSelected);
+        console.log(pag, categoriaSelected);
+        if(RegistrarHabitosDiariosVisible){
+            loadHabitosListaHabitosFiltro(pag, categoriaSelected);
+        }else{
+            loadHabitosListaHabitos(pag, categoriaSelected);
+        }
     };
     return(
         <View style={styles.mainContainer}>
@@ -198,8 +231,8 @@ const Main = () => {
             <NuevaCategoria showScreen={NuevaCategoriaVisible}/>
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
             <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
-            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage}/>
-            <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible} placeHolder={placeHolderNuevoHabito} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage}/>
+            <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
+            <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible} placeHolder={placeHolderNuevoHabito} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
             <Toast 
                 position = 'bottom'
