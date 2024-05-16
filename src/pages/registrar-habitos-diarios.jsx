@@ -8,8 +8,9 @@ import PrimaryButton from '../components/PrimaryButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
-const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage, placeHolder}) => {
+const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage, placeHolder, searchHabitosByFilter}) => {
   const [habitosArray, setHabitosArray] = useState([]);
+  const [similarDescripcion, setSimilarDescripcion] = useState([]);
 
   useEffect(() => {
     console.log('render RegistrarHabitosDiarios');
@@ -58,15 +59,18 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
       </View>
     );
   });
+  const saveHistoryHabitsPerDay = () => {
+    console.log("saveHistoryHabitsPerDay", habitosArray);
+  };
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
         <View style={{width: "100%", height:"40%", flexDirection: "column", alignItems: "center"}}>
           <Text>Registro Habitos Diarios</Text>
           <TextBoxLabelSelect label="Categoria" _height={40} _fontSize={15} _iconSize={30} placeHolder={placeHolder}></TextBoxLabelSelect>
-          <TextBoxLabel label="Buscar por descripción" _height={40} _fontSize={15}></TextBoxLabel>
+          <TextBoxLabel value={similarDescripcion} onChangeText={setSimilarDescripcion} label="Buscar por descripción" _height={40} _fontSize={15}></TextBoxLabel>
           <View style={{width: "100%", flexDirection: "row", justifyContent: "center", gap: 10}}>
-            <PrimaryButton label="Guardar" _height={40} _width={100}></PrimaryButton>
-            <PrimaryButton label="Buscar" _height={40} _width={100}></PrimaryButton>
+            <PrimaryButton label="Guardar" _height={40} _width={100} onClick={saveHistoryHabitsPerDay}></PrimaryButton>
+            <PrimaryButton label="Buscar" _height={40} _width={100} onClick={() => searchHabitosByFilter(similarDescripcion)}></PrimaryButton>
           </View>
           
         </View>
@@ -81,7 +85,7 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
             renderItem={({item}) => <Item descripcion={item.HABITO} color={item.COLOR} categoria={item.CATEGORIA} item={item}/>}
           ></FlatList>
         </View>
-        <View style={{width: "100%", height: "8%", flexDirection: "column", justifyContent: "center"}}>
+        <View style={[{width: "100%", height: "8%", flexDirection: "column", justifyContent: "center"}]}>
           <Pagination paginacionDetalle={paginacionHabitos} changePage={changePage}></Pagination>
         </View>
     </View>

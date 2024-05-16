@@ -10,7 +10,8 @@ import RegistrarHabitosDiarios from "../pages/registrar-habitos-diarios";
 import Toast from 'react-native-toast-message';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "../components/Modal";
-import { setModalVisible, setModalVisibleRegistraH } from "../../store/store";
+import { setModalVisible, setModalVisibleRegistraH, setPageActive } from "../../store/store";
+
 
 
 const Main = () => {
@@ -33,7 +34,7 @@ const Main = () => {
     const [listaHabitos, setListaHabitos] = useState([]);
     const [paginacionHabitos, setPaginacionHabitos] = useState({});
     const [numberPage, setNumberPage] = useState(1);
-    const [pageActive, setPageActive] = useState(1);
+    const pageActive = useSelector((state) => state.pageActive);
     
     const dispatch = useDispatch();
 
@@ -88,6 +89,7 @@ const Main = () => {
     };
     const loadHabitos = async (pag, id_cat) => {
         try{
+            console.log(urlControlHavitAPI+"api/getListaHabitos/1/"+id_cat+"?page="+pag+"&per_page=5");
             const response = await fetch(urlControlHavitAPI+"api/getListaHabitos/1/"+id_cat+"?page="+pag+"&per_page=5");
             const data = await response.json();
             return data;
@@ -97,6 +99,7 @@ const Main = () => {
     };
     const loadHabitosFiltro = async (pag, id_categoria, desc_habito) => {
         try{
+            console.log(urlControlHavitAPI+"api/getListaHabitosFiltro/1/"+id_categoria+"/"+desc_habito+"?page="+pag+"&per_page=5");
             const response = await fetch(urlControlHavitAPI+"api/getListaHabitosFiltro/1/"+id_categoria+"/"+desc_habito+"?page="+pag+"&per_page=5");
             const data = await response.json();
             return data;
@@ -123,7 +126,6 @@ const Main = () => {
             const {cod_resp, lista_habitos, meta} = await loadHabitos(pag, cat);
             if(cod_resp == 200){
                 setListaHabitos(lista_habitos);
-                //if(sw == 1)
                 setPaginacionHabitos(meta);
             }else{
                 console.log("Error");
@@ -165,8 +167,10 @@ const Main = () => {
                 setHistorialHabitosVisible(false);
                 break;
             case 4://Lista de habitos
+                dispatch(setPageActive(1));
                 setCategoriaSelected(-1);
                 setPaginacionHabitos({});
+                console.log("paginacionHabitos: ", paginacionHabitos)
                 loadHabitosListaHabitos(1);
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
@@ -178,8 +182,9 @@ const Main = () => {
             case 5://Registrar habitos diarios
                 setPlaceHolderNuevoHabito("Seleccione una categoria");
                 setCategoriaSelected(-1);
-                setListaHabitos([]);
                 setPaginacionHabitos({});
+                console.log("paginacionHabitos: ", paginacionHabitos)
+                setListaHabitos([]);
                 loadCategoriasNuevoHabitoR();
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
@@ -201,15 +206,15 @@ const Main = () => {
     const closeModal = () => {
         dispatch(setModalVisible(false))
     };
-    const onClickFlatList = (id, value, desc_hab = "%20") => {
-        console.log(id, value);
+    const onClickFlatList = (id, value) => {
         setPlaceHolderNuevoHabito(value);
         setCategoriaSelected(id);
         closeModal();
+        dispatch(setPageActive(1));
         if(RegistrarHabitosDiariosVisible){
             console.log("Pantalla Registro habitos");
-            //loadHabitosListaHabitosFiltro(1, id, desc_hab);
-            loadHabitosListaHabitos(1, id)
+            loadHabitosListaHabitosFiltro(1, id);
+            //loadHabitosListaHabitos(1, id)
         }
     };
     const cleanFieldCategorySelected = () => {
@@ -217,12 +222,15 @@ const Main = () => {
         setCategoriaSelected(-1);
     };
     const changePage = (pag) => {
-        console.log(pag, categoriaSelected);
         if(RegistrarHabitosDiariosVisible){
+            console.log("RegistrarHabitosDiariosVisible: ", RegistrarHabitosDiariosVisible)
             loadHabitosListaHabitosFiltro(pag, categoriaSelected);
         }else{
             loadHabitosListaHabitos(pag, categoriaSelected);
         }
+    };
+    const searchHabitosByFilter = (desc_habito) => {
+        loadHabitosListaHabitosFiltro(1, categoriaSelected, desc_habito);
     };
     return(
         <View style={styles.mainContainer}>
@@ -232,7 +240,7 @@ const Main = () => {
             <ListaCategorias showScreen={ListaCategoriasVisible} listaCategorias={listaCategoria}/>
             <NuevoHabito showScreen={NuevaHabitoVisible} placeHolder={placeHolderNuevoHabito} idCategoriaSelected={categoriaSelected} cleanFieldCategorySelected={cleanFieldCategorySelected}/>
             <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
-            <RegistrarHabitosDiarios showScreen={RegistrarHabitosDiariosVisible} placeHolder={placeHolderNuevoHabito} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
+            <RegistrarHabitosDiarios searchHabitosByFilter={searchHabitosByFilter} showScreen={RegistrarHabitosDiariosVisible} placeHolder={placeHolderNuevoHabito} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
             <HistorialHabitos showScreen={HistorialHabitosVisible}/>
             <Toast 
                 position = 'bottom'

@@ -8,6 +8,8 @@ export const PAGINATION_NUMBER = 'PAGINATION_NUMBER';
 
 export const MODAL_VISIBLE_REGISTRAR_H = 'MODAL_VISIBLE_REGISTRAR_H';
 
+export const PAGE_ACTIVE = 'PAGE_ACTIVE';
+
 export const setUrlControlHavitApi = (value) => {
     return {
         type: URL_CONTROL_HAVIT_API,
@@ -36,13 +38,21 @@ export const setPaginationNumber = (value) => {
     };
 };
 
+export const setPageActive = (value) => {
+    return {
+        type: PAGE_ACTIVE,
+        payload: value
+    };
+};
+
 const initialState = {
 
     // Define your initial state properties here
-    urlControlHavitAPI: 'http://192.168.1.2:5000/',
+    urlControlHavitAPI: 'http://192.168.1.5:5000/',
     modalVisible: false,
     paginationNumber: 1,
     modalVisibleRegistrarH: false,
+    pageActive: 1
 };
 
 const reducer = (state = initialState, action) => {
@@ -67,6 +77,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 modalVisibleRegistrarH: action.payload
+            }
+        case PAGE_ACTIVE:
+            return {
+                ...state,
+                pageActive: action.payload
             }
         default:
             return state;

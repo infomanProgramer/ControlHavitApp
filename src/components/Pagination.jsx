@@ -3,19 +3,23 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import MainStyle from '../GlobalStyles/MainStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaginationNumber } from '../../store/store';
+import { setPageActive } from '../../store/store';
 
 export const Pagination = ({paginacionDetalle, changePage}) => {
     const [numberLeft, setNumberLeft] = useState(1);
     const [numberMiddle, setNumberMiddle] = useState(2);
     const [numberRight, setNumberRight] = useState(3);
-    const [pageActive, setPageActive] = useState(1);
+    const pageActive = useSelector((state) => state.pageActive);
+    //const [pageActive, setPageActive] = useState(1);
 
     const dispatch = useDispatch();
 
     const goLeft = () => {
-        // console.log("paginacionDetalle.page: ", paginacionDetalle.page);
-        // if(paginacionDetalle.page == 1)
-        //     setPageActive(1)
+        if(pageActive == 1){
+            setNumberLeft(1);
+            setNumberMiddle(2);
+            setNumberRight(3);
+        }
         if(paginacionDetalle.pages >= 3){
             if(pageActive-2 >= 1){
                 setNumberLeft(pageActive-2)
@@ -23,23 +27,26 @@ export const Pagination = ({paginacionDetalle, changePage}) => {
                 setNumberRight(pageActive);
             }
             if(pageActive > 1){
-                setPageActive(pageActive - 1);
+                dispatch(setPageActive(pageActive - 1));
                 changePage(pageActive - 1);
             }
         }else if(paginacionDetalle.pages == 2){
             if(pageActive > 1){
-                setPageActive(pageActive - 1);
+                //setPageActive(pageActive - 1);
+                dispatch(setPageActive(pageActive - 1));
                 changePage(pageActive - 1);
             }
         }
     };
     const goRight = () => {
-        // console.log("paginacionDetalle.page: ", paginacionDetalle.page);
-        // if(paginacionDetalle.page == 1)
-        //     setPageActive(1)
+        if(pageActive == 1){
+            setNumberLeft(1);
+            setNumberMiddle(2);
+            setNumberRight(3);
+        }
         if(paginacionDetalle.pages >= 3){
             if(pageActive < paginacionDetalle.pages){
-                setPageActive(pageActive + 1);
+                dispatch(setPageActive(pageActive + 1));
                 changePage(pageActive+1);
             }
             if(pageActive > 1 && (pageActive + 1 < paginacionDetalle.pages)){
@@ -49,23 +56,23 @@ export const Pagination = ({paginacionDetalle, changePage}) => {
             }
         }else if(paginacionDetalle.pages == 2){
             if(pageActive < 2){
-                setPageActive(pageActive + 1);
+                dispatch(setPageActive(pageActive + 1));
                 changePage(pageActive+1);
             }
         }
     };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
         <Text style={styles.page}>1</Text>
         <TouchableOpacity style={styles.arrow_left} onPress={goLeft}></TouchableOpacity>
         <View style={pageActive == 1? styles.esferaCenter:styles.esfera}>
-            <Text style={pageActive == 1?styles.esferaCenter_texto:styles.esfera_texto}>{numberLeft}</Text>
+            <Text style={pageActive == 1?styles.esferaCenter_texto:styles.esfera_texto}>{pageActive == 1? pageActive:numberLeft}</Text>
         </View>
         <View style={[pageActive > 1 && pageActive < paginacionDetalle.pages?styles.esferaCenter:styles.esfera, paginacionDetalle.pages <= 2?MainStyle.hidden:MainStyle.visible]}>
-            <Text style={pageActive > 1 && pageActive < paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{numberMiddle}</Text>
+            <Text style={pageActive > 1 && pageActive < paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{pageActive == 1?2:numberMiddle}</Text>
         </View>
         <View style={[pageActive == paginacionDetalle.pages? styles.esferaCenter:styles.esfera, paginacionDetalle.pages <= 1?MainStyle.hidden:MainStyle.visible]}>
-            <Text style={pageActive == paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{paginacionDetalle.pages == 2?2:numberRight}</Text>
+            <Text style={pageActive == paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{paginacionDetalle.pages == 2?2:pageActive == 1? 3:numberRight}</Text>
         </View>
         
             
