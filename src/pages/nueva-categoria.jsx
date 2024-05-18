@@ -19,7 +19,7 @@ const NuevaCategoria = ({showScreen}) => {
   const urlControlHavitAPI = useSelector((state) => state.urlControlHavitAPI);
   
   const handleOnSubmit = () => {
-    NewCategoriaObj = {};
+    let NewCategoriaObj = {};
     if(!descripcion){
       setDescripcionError("Debe rellenar el campo descripción");
       return; 

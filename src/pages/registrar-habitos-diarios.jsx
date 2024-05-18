@@ -7,10 +7,12 @@ import TextBoxLabelSelect from '../components/TextBoxLabelSelect';
 import PrimaryButton from '../components/PrimaryButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
+import { useSelector } from 'react-redux';
 
-const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage, placeHolder, searchHabitosByFilter}) => {
+const    RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, changePage, placeHolder, searchHabitosByFilter}) => {
   const [habitosArray, setHabitosArray] = useState([]);
   const [similarDescripcion, setSimilarDescripcion] = useState([]);
+  const urlControlHavitAPI = useSelector((state) => state.urlControlHavitAPI);
 
   useEffect(() => {
     console.log('render RegistrarHabitosDiarios');
@@ -59,8 +61,51 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
       </View>
     );
   });
-  const saveHistoryHabitsPerDay = () => {
-    console.log("saveHistoryHabitsPerDay", habitosArray);
+  const saveHistorialSeguimiento = async () => {
+    console.log("NewHistorialSeguimiento", NewHistorialSeguimiento)
+    if(habitosArray.length > 0) {
+      let NewHistorialSeguimiento = {}
+      NewHistorialSeguimiento.lista_habitos = habitosArray
+      try{
+          fetch(urlControlHavitAPI+"api/saveHistorialSeguimiento", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(NewHistorialSeguimiento)
+          }).then((response) => {
+            return response.json();
+          }).then((data) => {
+            if(data.cod_resp == 200){
+              Toast.show({
+                type:'success',
+                text1: 'Success',
+                text2: data.message
+              });
+            }else{
+              console.error("error");
+              Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: data.message
+              });
+            }
+            cleanFields();
+          });
+      }catch(error){
+          throw error;
+      }
+    }else{
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: "Debe seleccionar al menos un habito"
+      });
+    }
+  };
+  const cleanFields = () => {
+    setHabitosArray([]);
+    setSimilarDescripcion([]);
   };
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
@@ -69,7 +114,7 @@ const RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos, c
           <TextBoxLabelSelect label="Categoria" _height={40} _fontSize={15} _iconSize={30} placeHolder={placeHolder}></TextBoxLabelSelect>
           <TextBoxLabel value={similarDescripcion} onChangeText={setSimilarDescripcion} label="Buscar por descripción" _height={40} _fontSize={15}></TextBoxLabel>
           <View style={{width: "100%", flexDirection: "row", justifyContent: "center", gap: 10}}>
-            <PrimaryButton label="Guardar" _height={40} _width={100} onClick={saveHistoryHabitsPerDay}></PrimaryButton>
+            <PrimaryButton label="Guardar" _height={40} _width={100} onClick={saveHistorialSeguimiento}></PrimaryButton>
             <PrimaryButton label="Buscar" _height={40} _width={100} onClick={() => searchHabitosByFilter(similarDescripcion)}></PrimaryButton>
           </View>
           

@@ -170,7 +170,6 @@ const Main = () => {
                 dispatch(setPageActive(1));
                 setCategoriaSelected(-1);
                 setPaginacionHabitos({});
-                console.log("paginacionHabitos: ", paginacionHabitos)
                 loadHabitosListaHabitos(1);
                 setNuevaCategoriaVisible(false);
                 setListaCategoriasVisible(false);
@@ -183,7 +182,6 @@ const Main = () => {
                 setPlaceHolderNuevoHabito("Seleccione una categoria");
                 setCategoriaSelected(-1);
                 setPaginacionHabitos({});
-                console.log("paginacionHabitos: ", paginacionHabitos)
                 setListaHabitos([]);
                 loadCategoriasNuevoHabitoR();
                 setNuevaCategoriaVisible(false);
