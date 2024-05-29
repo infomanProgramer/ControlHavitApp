@@ -62,7 +62,6 @@ const    RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos
     );
   });
   const saveHistorialSeguimiento = async () => {
-    console.log("NewHistorialSeguimiento", NewHistorialSeguimiento)
     if(habitosArray.length > 0) {
       let NewHistorialSeguimiento = {}
       NewHistorialSeguimiento.lista_habitos = habitosArray
