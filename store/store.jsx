@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import {AsyncStorage} from 'react-native';
 
 export const URL_CONTROL_HAVIT_API = 'URL_CONTROL_HAVIT_API';
 
@@ -45,6 +46,16 @@ export const setPageActive = (value) => {
     };
 };
 
+const fetchUrlAPI = async () => {
+    const url = ""
+    try{
+        url = await AsyncStorage.getItem("urlStorage")
+        return url;   
+    }catch(err){
+        return url;
+    }
+};
+
 const initialState = {
 
     // Define your initial state properties here
@@ -59,6 +70,7 @@ const reducer = (state = initialState, action) => {
     // Handle different action types and update the state accordingly
     switch (action.type) {
         case URL_CONTROL_HAVIT_API:
+            
             return {
                 ...state,
                 urlControlHavitAPI: action.payload

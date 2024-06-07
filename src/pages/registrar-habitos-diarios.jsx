@@ -25,7 +25,7 @@ const    RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos
         <View style={[styles.circle, {alignSelf: "center", backgroundColor: color}]}></View>
       </View>
       <View style={{width: "75%", flexDirection: "column"}}>
-        <Text style={{fontWeight: "bold"}}>{descripcion}</Text>
+        <Text style={{fontWeight: "bold", color: 'black'}}>{descripcion}</Text>
       </View>
     </TouchableOpacity>
   ));
@@ -109,7 +109,7 @@ const    RegistrarHabitosDiarios = ({showScreen, listaHabitos, paginacionHabitos
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
         <View style={{width: "100%", height:"40%", flexDirection: "column", alignItems: "center"}}>
-          <Text>Registro Habitos Diarios</Text>
+          <Text style={{color: 'black'}}>Registro Habitos Diarios</Text>
           <TextBoxLabelSelect label="Categoria" _height={40} _fontSize={15} _iconSize={30} placeHolder={placeHolder}></TextBoxLabelSelect>
           <TextBoxLabel value={similarDescripcion} onChangeText={setSimilarDescripcion} label="Buscar por descripción" _height={40} _fontSize={15}></TextBoxLabel>
           <View style={{width: "100%", flexDirection: "row", justifyContent: "center", gap: 10}}>

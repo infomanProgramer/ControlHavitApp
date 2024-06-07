@@ -81,7 +81,7 @@ const NuevaCategoria = ({showScreen}) => {
 
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
-      <Text>Nueva categoria</Text>
+      <Text style={{color: 'black'}}>Nueva categoria</Text>
       <TextBoxLabel label="Descripción" onChangeText={setDescripcion} text={descripcion} errorText={descripcionError}/>
       <SwitchLabel label="¿Es bueno?" toggleSwitch={toggleSwitch} isEnabled={isEnabled}/>
       <ColorPaletteSelect colorSelected={color} onChange={setColor}/>

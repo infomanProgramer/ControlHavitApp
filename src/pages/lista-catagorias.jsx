@@ -9,7 +9,7 @@ const Item = React.memo(({descripcion, color, isEnabled}) => (
       <View style={[styles.circle, {alignSelf: "center", backgroundColor: color}]}></View>
     </View>
     <View style={{width: "60%"}}>
-      <Text>{descripcion}</Text>
+      <Text style={{color: 'black'}}>{descripcion}</Text>
     </View>
     <View style={{width: "20%"}}>
       <Switch
@@ -26,7 +26,7 @@ const ListaCategorias = ({showScreen, listaCategorias}) => {
   
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
-        <Text style={{width: "100%"}}>Lista de categorias</Text>
+        <Text style={{width: "100%", color: 'black'}}>Lista de categorias</Text>
         <FlatList style={{width: "100%"}}
           data={listaCategorias}
           initialNumToRender={8}

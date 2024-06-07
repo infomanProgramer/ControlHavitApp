@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Text, View, StyleSheet} from "react-native";
 import Header from "../components/Header";
 import NuevaCategoria from "../pages/nueva-categoria";

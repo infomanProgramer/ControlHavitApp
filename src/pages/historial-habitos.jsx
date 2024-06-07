@@ -14,7 +14,7 @@ const Item = ({fecha, habitos}) => {
   return (
     <TouchableOpacity style={styles.item}>
       <View style={styles.subitem}>
-        <Text style={{fontWeight: 'bold'}}>{fecha}</Text>
+        <Text style={{fontWeight: 'bold', color: 'black'}}>{fecha}</Text>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {renderHabitosPorDia}
         </View>
@@ -25,7 +25,7 @@ const Item = ({fecha, habitos}) => {
 const HistorialHabitos = ({showScreen, listaSeguimiento, paginacionHabitos, changePage}) => {
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
-        <Text>Historial habitos</Text>
+        <Text style={{color: 'black'}}>Historial habitos</Text>
         <Pagination paginacionDetalle={paginacionHabitos} changePage={changePage}></Pagination>
         <FlatList
           style={{width: '100%'}}

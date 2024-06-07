@@ -20,14 +20,14 @@ const Item = React.memo(({descripcion, categoria, color}) => (
                       marginBottom: 5, 
                       opacity: 0.8
                       }}>{categoria}</Text>
-      <Text style={{fontWeight: "bold"}}>{descripcion}</Text>
+      <Text style={{fontWeight: "bold", color: 'black'}}>{descripcion}</Text>
     </View>
   </TouchableOpacity>
 ));
 const ListaHabitos = ({showScreen, listaHabitos, paginacionHabitos, changePage}) => {
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
-        <Text>Lista habitos</Text>
+        <Text style={{color: 'black'}}>Lista habitos</Text>
         <Pagination paginacionDetalle={paginacionHabitos} changePage={changePage}></Pagination>
         <FlatList
           data={listaHabitos}

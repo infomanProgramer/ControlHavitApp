@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
-import MainStyle from '../GlobalStyles/MainStyle';
+import MainStyle, {colors} from '../GlobalStyles/MainStyle';
 
 const TextBoxLabel = ({label, onChangeText, text, errorText = "", placeHolder, _height=60, _fontSize=20}) => {
 
   return (
     <View style={{width: "90%", flexDirection: "column" ,marginTop: 25 ,alignItems: "left"}}>
-      <Text>{label}</Text>
+      <Text style={{color: 'black'}}>{label}</Text>
       <TextInput
-        placeholder={placeHolder} 
+        placeholder={placeHolder}
+        placeholderTextColor={colors.plomo_oscuro}
         style={[styles.input, {marginTop:5, borderRadius: 10, height: _height, fontSize: _fontSize,}]} 
         onChangeText={onChangeText}
         value={text}

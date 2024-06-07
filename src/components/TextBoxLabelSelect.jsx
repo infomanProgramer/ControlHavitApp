@@ -15,10 +15,11 @@ const TextBoxLabelSelect = ({label, onChangeText, text, errorText = "", placeHol
 
   return (
     <View style={{width: "90%", flexDirection: "column" ,marginTop: 25 ,alignItems: "left"}}>
-      <Text>{label}</Text>
+      <Text style={{color: "black"}}>{label}</Text>
       <View style={{width: "100%", flexDirection: "row", alignItems: "center"}}>
         <TextInput
           placeholder={placeHolder} 
+          placeholderTextColor={colors.plomo_oscuro}
           style={[styles.input, {marginTop:5, borderRadius: 10, height: _height, fontSize: _fontSize,}]} 
           onChangeText={onChangeText}
           value={text}

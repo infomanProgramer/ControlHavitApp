@@ -11,7 +11,7 @@ const Modal = ({showScreen, setData, id, value, closeModal, onClickFlatList}) =>
   
   const Item = (({item, id, value}) => (
     <TouchableOpacity onPress={() => onClickFlatList(item[id], item[value])} style={{width: "100%", paddingTop: 20, paddingBottom: 20, borderTopColor: "#DADAE0", borderTopWidth: 1}}>
-      <Text key={item.id} style={{alignSelf: "center"}}>{item[value]}</Text>
+      <Text key={item.id} style={{alignSelf: "center", color: "black"}}>{item[value]}</Text>
     </TouchableOpacity>
   ));
   return (

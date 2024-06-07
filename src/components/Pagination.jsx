@@ -63,7 +63,7 @@ export const Pagination = ({paginacionDetalle, changePage}) => {
     };
   return (
     <View style={[styles.container]}>
-        <Text style={styles.page}>1</Text>
+        <Text style={[styles.page, {color: 'black'}]}>1</Text>
         <TouchableOpacity style={styles.arrow_left} onPress={goLeft}></TouchableOpacity>
         <View style={pageActive == 1? styles.esferaCenter:styles.esfera}>
             <Text style={pageActive == 1?styles.esferaCenter_texto:styles.esfera_texto}>{pageActive == 1? pageActive:numberLeft}</Text>
@@ -74,10 +74,8 @@ export const Pagination = ({paginacionDetalle, changePage}) => {
         <View style={[pageActive == paginacionDetalle.pages? styles.esferaCenter:styles.esfera, paginacionDetalle.pages <= 1?MainStyle.hidden:MainStyle.visible]}>
             <Text style={pageActive == paginacionDetalle.pages?styles.esferaCenter_texto:styles.esfera_texto}>{paginacionDetalle.pages == 2?2:pageActive == 1? 3:numberRight}</Text>
         </View>
-        
-            
         <TouchableOpacity style={styles.arrow_right} onPress={goRight}></TouchableOpacity>
-        <Text style={styles.page}>{paginacionDetalle.pages}</Text>
+        <Text style={[styles.page, {color: 'black'}]}>{paginacionDetalle.pages}</Text>
     </View>
   )
 }

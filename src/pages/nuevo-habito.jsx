@@ -84,7 +84,7 @@ const NuevoHabito = ({showScreen, placeHolder, idCategoriaSelected, cleanFieldCa
   };
   return (
     <View style={[MainStyle.container, showScreen?MainStyle.visible:MainStyle.hidden]}>
-        <Text>Nuevo habito</Text>
+        <Text style={{color: 'black'}}>Nuevo habito</Text>
         <TextBoxLabelSelect label="Categoria" placeHolder={placeHolder} errorText={errorIdCategoriaSelected}></TextBoxLabelSelect>
         <TextBoxLabel label="Descripción" errorText={errorDescripHabito} text={descripcionHabito} onChangeText={setDescripcionHabito}></TextBoxLabel>
         <ColorPaletteSelect colorSelected={color} onChange={setColor}></ColorPaletteSelect>
