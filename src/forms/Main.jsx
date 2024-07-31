@@ -7,6 +7,7 @@ import ListaCategorias from "../pages/lista-catagorias";
 import ListaHabitos from "../pages/lista-habitos";
 import NuevoHabito from "../pages/nuevo-habito";
 import RegistrarHabitosDiarios from "../pages/registrar-habitos-diarios";
+import CalendarHabit from "../pages/calendar-habit";
 import Toast from 'react-native-toast-message';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "../components/Modal";
@@ -25,6 +26,7 @@ const Main = () => {
     const [NuevaCategoriaVisible, setNuevaCategoriaVisible] = useState(true);
     const [NuevaHabitoVisible, setNuevaHabitoVisible] = useState(false);
     const [RegistrarHabitosDiariosVisible, setRegistrarHabitosDiariosVisible] = useState(false);
+    const [CaledarVisible, setCaledarVisible] = useState(false);
     const [listaCategoria, setListaCategoria] = useState([]);
     const [arrayModal, setArrayModal] = useState([])
     const [id, setId] = useState(0);
@@ -35,6 +37,8 @@ const Main = () => {
     const [paginacionHabitos, setPaginacionHabitos] = useState({});
     const [numberPage, setNumberPage] = useState(1);
     const [listaSeguimiento, setListaSeguimiento] = useState([]);
+    const [mesesGestion, setMesesGestion] = useState([]);
+    const [yearCalendar, setYearCalendar] = useState(0);
     const pageActive = useSelector((state) => state.pageActive);
     
     const dispatch = useDispatch();
@@ -95,6 +99,28 @@ const Main = () => {
             console.error("error");
         }
     };
+    const loadMesesGestion = async () => {
+        try{
+            const response = await fetch(urlControlHavitAPI+"api/calendarV1?year=2024");
+            const data = await response.json();
+            return data;
+        }catch(error){
+            throw error;
+        }
+    };
+
+    const loadMesesGestionRender = async () => {
+        const {cod_resp, calendarArray, year} = await loadMesesGestion();
+        if(cod_resp == 200){
+            setYearCalendar(year);
+            setMesesGestion(calendarArray);
+            console.log("year: ", year);
+            console.log("calendarArray: ", calendarArray);
+        }else{
+            console.error("error");
+        }
+    };
+
     const loadCategoriasNuevoHabitoR = async () => {
         try{
             const {cod_resp, lista_categorias} = await loadCategorias();
@@ -165,6 +191,7 @@ const Main = () => {
                 setListaHabitosVisible(false);
                 setRegistrarHabitosDiariosVisible(false);
                 setHistorialHabitosVisible(false);
+                setCaledarVisible(false);
                 break;
             case 2://Lista Categorias
                 loadCategoriasListaCategorias();
@@ -174,6 +201,7 @@ const Main = () => {
                 setListaHabitosVisible(false);
                 setRegistrarHabitosDiariosVisible(false);
                 setHistorialHabitosVisible(false);
+                setCaledarVisible(false);
                 break;
             case 3://Nuevo habito
                 setPlaceHolderNuevoHabito("Seleccione una categoria");
@@ -187,6 +215,7 @@ const Main = () => {
                 setListaHabitosVisible(false);
                 setRegistrarHabitosDiariosVisible(false);
                 setHistorialHabitosVisible(false);
+                setCaledarVisible(false);
                 break;
             case 4://Lista de habitos
                 dispatch(setPageActive(1));
@@ -199,6 +228,7 @@ const Main = () => {
                 setListaHabitosVisible(true);
                 setRegistrarHabitosDiariosVisible(false);
                 setHistorialHabitosVisible(false);
+                setCaledarVisible(false);
                 break;
             case 5://Registrar habitos diarios
                 setPlaceHolderNuevoHabito("Seleccione una categoria");
@@ -212,6 +242,7 @@ const Main = () => {
                 setListaHabitosVisible(false);
                 setRegistrarHabitosDiariosVisible(true);
                 setHistorialHabitosVisible(false);
+                setCaledarVisible(false);
                 break;
             case 6://Historial registro diario
                 console.log("--> Historial registro diario <--")
@@ -222,6 +253,17 @@ const Main = () => {
                 setListaHabitosVisible(false);
                 setRegistrarHabitosDiariosVisible(false);
                 setHistorialHabitosVisible(true);
+                setCaledarVisible(false);
+                break;
+            case 7://Calendario
+                loadMesesGestionRender();
+                setNuevaCategoriaVisible(false);
+                setListaCategoriasVisible(false);
+                setNuevaHabitoVisible(false);
+                setListaHabitosVisible(false);
+                setRegistrarHabitosDiariosVisible(false);
+                setHistorialHabitosVisible(false);
+                setCaledarVisible(true);
                 break;
         }
     };
@@ -266,6 +308,7 @@ const Main = () => {
             <ListaHabitos showScreen={ListaHabitosVisible} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
             <RegistrarHabitosDiarios searchHabitosByFilter={searchHabitosByFilter} showScreen={RegistrarHabitosDiariosVisible} placeHolder={placeHolderNuevoHabito} listaHabitos={listaHabitos} paginacionHabitos={paginacionHabitos} changePage={changePage} />
             <HistorialHabitos showScreen={HistorialHabitosVisible} listaSeguimiento={listaSeguimiento} paginacionHabitos={paginacionHabitos} changePage={changePage}/>
+            <CalendarHabit showScreen={CaledarVisible} year={yearCalendar} mesesGestion={mesesGestion}></CalendarHabit>
             <Toast
                 position = 'bottom'
                 bottomOffset={20}

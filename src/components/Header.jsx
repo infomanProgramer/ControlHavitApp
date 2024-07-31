@@ -12,7 +12,8 @@ const Header = ({onClickItemMenuPassData}) => {
         {key: 3, value: 'Nueva Habito', icon: 'add-circle'},
         {key: 4, value: 'Lista Habitos', icon: 'list-circle-outline'},
         {key: 5, value: 'Registrar habitos diarios', icon: 'barbell-sharp'},
-        {key: 6, value: 'Historial registro diario', icon: 'bar-chart-outline'}
+        {key: 6, value: 'Historial registro diario', icon: 'bar-chart-outline'},
+        {key: 7, value: 'Calendario', icon: 'calendar-number-outline'}
     ];
 
     const toggleButton = () => {

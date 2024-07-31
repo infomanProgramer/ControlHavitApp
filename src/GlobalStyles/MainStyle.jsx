@@ -52,7 +52,7 @@ export default StyleSheet.create({
     },
     container: {
         backgroundColor: colors.blanco,
-        height: "100%",
+        height: "90%",
         flexDirection: "column",
         alignItems: "center",
     }
