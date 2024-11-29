@@ -18,6 +18,8 @@ const CalendarHabit = ({showScreen, year, mesesGestion, descHabito}) => {
             alignSelf: 'center',
             fontWeight: 'bold',
             fontSize: 30,
+            color: 'black',
+            marginTop: 5
           }}>
           Gestion {year}
         </Text>
@@ -27,6 +29,8 @@ const CalendarHabit = ({showScreen, year, mesesGestion, descHabito}) => {
             alignSelf: 'center',
             fontWeight: 'bold',
             fontSize: 15,
+            color: 'black',
+            marginBottom: 10
           }}>
           {descHabito}
         </Text>
@@ -42,6 +46,7 @@ const CalendarHabit = ({showScreen, year, mesesGestion, descHabito}) => {
                   borderColor: 'black',
                   borderWidth: 1,
                   borderRadius: 10,
+                  marginBottom: 5
                 }}>
                 <MonthCalendar mes={mes}></MonthCalendar>
               </View>

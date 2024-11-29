@@ -48,4 +48,31 @@ This is one way to run your app — you can also run it directly from within And
 
 ## Generar un compilado pora Android
 
-Revisar pasos de chat GPT https://chatgpt.com/c/e44ff933-1042-4f3e-9503-8bf2b14ab6e1È
+Abrir una terminal y navegar al directorio del proyecto:
+~~~
+cd path/to/your/react-native-project
+~~~
+
+Cambiar al directorio android:
+~~~
+cd android
+~~~
+
+### Limpieza y construcción del proyecto:
+Limpia el proyecto para asegurarte de que no haya conflictos:
+
+~~~
+./gradlew clean
+~~~
+
+Genera el APK en modo release:
+
+~~~
+./gradlew assembleRelease
+~~~
+
+Esto generará el APK en el directorio ***android/app/build/outputs/apk/release/*** con el nombre **app-release.apk**.
+
+
+
+
