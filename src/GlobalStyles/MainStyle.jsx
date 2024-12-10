@@ -55,5 +55,26 @@ export default StyleSheet.create({
         height: "90%",
         flexDirection: "column",
         alignItems: "center",
+    },
+    containerModal: {
+        backgroundColor: "transparent",
+        flexDirection: "column",
+        height: "100%",
+        width: "100%",
+        position: "absolute",
+        top: 0,
+        zIndex: 2
+    },
+    containerModalLoading: {
+        backgroundColor:"black", 
+        opacity: 0.5,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        width: "100%",
+        position: "absolute",
+        top: 0,
+        zIndex: 2
     }
 });

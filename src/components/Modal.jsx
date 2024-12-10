@@ -15,7 +15,7 @@ const Modal = ({showScreen, setData, id, value, closeModal, onClickFlatList}) =>
     </TouchableOpacity>
   ));
   return (
-    <View style={[styles.containerModal, showScreen?MainStyle.visible:MainStyle.hidden]}>
+    <View style={[MainStyle.containerModal, showScreen?MainStyle.visible:MainStyle.hidden]}>
       <View style={{height: "100%", backgroundColor:"black", opacity: 0.5}}>
       </View>
       <View style={{height: 'auto', width: "100%", backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20, position:"absolute", zIndex: 2, bottom: 0}}>
@@ -30,18 +30,6 @@ const Modal = ({showScreen, setData, id, value, closeModal, onClickFlatList}) =>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-    containerModal: {
-        backgroundColor: "transparent",
-        flexDirection: "column",
-        height: "100%",
-        width: "100%",
-        position: "absolute",
-        top: 0,
-        zIndex: 2
-    }
-})
 
 export default Modal;
 

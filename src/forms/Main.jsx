@@ -11,6 +11,7 @@ import CalendarHabit from '../pages/calendar-habit';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import Modal from '../components/Modal';
+import ModalLoading from '../components/ModalLoading';
 import {
   setModalVisible,
   setModalVisibleRegistraH,
@@ -48,6 +49,7 @@ const Main = () => {
   const [yearCalendar, setYearCalendar] = useState(0);
   const [descHabito, setDescHabito] = useState('');
   const pageActive = useSelector(state => state.pageActive);
+  const [modalLoadingVisible, setModalLoadingVisible] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -390,6 +392,9 @@ const Main = () => {
         value={value}
         closeModal={closeModal}
         onClickFlatList={onClickFlatList}
+      />
+      <ModalLoading
+        showScreen={modalLoadingVisible}
       />
       <Header onClickItemMenuPassData={handleDataMenuItemPassData} />
       <NuevaCategoria showScreen={NuevaCategoriaVisible} />
